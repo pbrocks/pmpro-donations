@@ -4,12 +4,13 @@
  *
  */
 
+add_action( 'pmpro_memberslist_extra_cols_header', 'pmpro_memberslist_donation_header' );
 function pmpro_memberslist_donation_header() {     ?>
 <th><?php _e( 'Donation', 'pmprodon' ); ?></th>
 	<?php
 }
-add_action( 'pmpro_memberslist_extra_cols_header', 'pmpro_memberslist_donation_header' );
 
+add_action( 'pmpro_memberslist_extra_cols_body', 'pmpro_memberslist_donation_body' );
 function pmpro_memberslist_donation_body( $theuser ) {
 	?>
 	<td>
@@ -20,9 +21,9 @@ function pmpro_memberslist_donation_body( $theuser ) {
 	<?php
 }
 
-add_action( 'pmpro_memberslist_extra_cols_body', 'pmpro_memberslist_donation_body' );
 
-function pmpro_memberslist_csv_login_column( $columns ) {
+add_filter( 'pmpro_members_list_csv_extra_columns', 'pmpro_memberslist_csv_donation_column' );
+function pmpro_memberslist_csv_donation_column( $columns ) {
 	$new_columns = array(
 		'last_donation' => 'pmpro_csv_donation_extra_column',
 	);
@@ -31,13 +32,12 @@ function pmpro_memberslist_csv_login_column( $columns ) {
 
 	return $columns;
 }
-add_filter( 'pmpro_members_list_csv_extra_columns', 'pmpro_memberslist_csv_login_column' );
 
 function pmpro_csv_donation_extra_column( $user ) {
-	$last_login = pmpro_get_last_member_login( $user );
+	$last_donation = calculate_the_donation_amount( $user );
 
-	if ( $last_login ) {
-		return $last_login;
+	if ( $last_donation ) {
+		return $last_donation;
 	} else {
 		return '';
 	}
