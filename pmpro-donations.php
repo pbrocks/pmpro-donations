@@ -7,6 +7,9 @@ Version: .5
 Author: Paid Memberships Pro
 Author URI: https://www.paidmembershipspro.com/
 */
+
+include 'add-donations-to-list.php';
+
 /*
 	Min Price and Max Price Fields on the edit levels page
 */
