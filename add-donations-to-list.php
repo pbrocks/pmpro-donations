@@ -29,17 +29,16 @@ function pmpro_memberslist_csv_donation_column( $columns ) {
 	);
 
 	$columns = array_merge( $columns, $new_columns );
-
 	return $columns;
 }
 
-function pmpro_csv_donation_extra_column( $user ) {
-	$last_donation = calculate_the_donation_amount( $user );
+function pmpro_csv_donation_extra_column( $theuser ) {
+	$last_donation = calculate_the_donation_amount( $theuser->ID );
 
-	if ( $last_donation ) {
-		return $last_donation;
+	if ( empty( $last_donation ) ) {
+		return '--';
 	} else {
-		return '';
+		return $last_donation;
 	}
 }
 
@@ -90,3 +89,4 @@ function get_pmpro_member_order_object( $user_id, $level_id ) {
 		return $variable[0];
 	}
 }
+// 
