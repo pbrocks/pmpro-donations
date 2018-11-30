@@ -1,8 +1,42 @@
 <?php
 /**
  * Code creates new column for Memberslist and Memberlist CSV export
- *
+ * 
  */
+add_action( 'pmpro_after_order_settings', 'pmpro_order_detail_page' );
+function pmpro_order_detail_page( $order ) {
+	$donation = calculate_the_donation_amount( $order->user_id );
+	if ( empty( $donation ) ) {
+		return;
+	}
+     ?>
+<th><?php _e( 'Donation', 'pmprodon' ); ?></th>
+	<td>
+	<?php
+		setlocale( LC_MONETARY, 'en_US' );
+		echo money_format('$%.2n', $donation  );
+	?>
+	</td>
+	<?php
+}
+
+add_action( 'pmpro_orders_extra_cols_header', 'pmpro_memberslist_ion_header' );
+function pmpro_memberslist_ion_header() { 
+    ?>
+<th><?php _e( 'Donation', 'pmprodon' ); ?></th>
+	<?php
+}
+
+add_action( 'pmpro_orders_extra_cols_body', 'pmpro_memberslist_ion_body' );
+function pmpro_memberslist_ion_body( $order ) {
+	?>
+	<td>
+	<?php
+		echo calculate_the_donation_amount( $order->user_id );
+	?>
+	</td>
+	<?php
+}
 
 add_action( 'pmpro_memberslist_extra_cols_header', 'pmpro_memberslist_donation_header' );
 function pmpro_memberslist_donation_header() {     ?>
